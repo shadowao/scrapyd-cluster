@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Project Worker List{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-9">
+            <div class="list-group" title="This Project Deploy Below Workers">
+                {% for worker in workers %}
+                <div class="list-group-item"><a href="/project?project={{ project }}&worker={{ worker }}">{{ worker }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+                {% for spider, w in spiders.items() %}
+                <div class="list-group-item"><a href="/project/spider?project={{ project }}&spider={{ spider }}&worker={{ ','.join(w) }}">{{ spider }}</a></div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

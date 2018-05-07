@@ -99,3 +99,13 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# pycharm
+.idea/*
+*/.idea/*
+*/*/.idea/*
+
+# scrapyd
+dbs/
+eggs/
+logs/

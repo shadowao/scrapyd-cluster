@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block title %}Project Worker List{% endblock %}
+
+{% block content %}
+<div class="row" xmlns="http://www.w3.org/1999/html">
+        <div class="col-md-9">
+            {% for h, jobs in job_result.items() %}
+                <div>
+                    <h3><a href="/worker?worker={{ h }}">{{ h }}</a></h3>
+                {% if jobs.status == 'ok' %}
+                    <table id="pending" class="table list-group-item">
+                        <caption>Pending Job</caption>
+                        <thead><tr>
+                            <th>Spider</th>
+                            <th>Job Id</th>
+                        </tr></thead>
+                        <tbody id="pending-body">
+                            {% for job in jobs.pending %}
+                            <tr>
+                                <td> {{ job.spider }} </td>
+                                <td> {{ job.id }} </td>
+                                <td><a class="btn btn-info" href="/project/spider/stop?project={{ project }}&job={{ job.id }}&worker={{ h }}">Stop</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <table id="running" class="table list-group-item">
+                        <caption>Running Job</caption>
+                        <thead><tr>
+                            <th>Spider</th>
+                            <th>Job Id</th>
+                            <th>Start Time</th>
+                        </tr></thead>
+                        <tbody id="running-body">
+                            {% for job in jobs.running %}
+                            <tr>
+                                <td> {{ job.spider }} </td>
+                                <td> {{ job.id }} </td>
+                                <td> {{ job.start_time }} </td>
+                                <td><a class="btn btn-info" href="/project/spider/stop?project={{ project }}&job={{ job.id }}&worker={{ h }}">Stop</a></td>
+                                <td><a href="{{ h }}/logs/{{ project }}/{{ job.spider }}/{{ job.id }}.log">Log</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <table id="finished" class="table list-group-item">
+                        <caption>Finished Job</caption>
+                        <thead><tr>
+                            <th>Spider</th>
+                            <th>Job Id</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                        </tr></thead>
+                        <tbody id="finished-body">
+                            {% for job in jobs.finished %}
+                            <tr>
+                                <td> {{ job.spider }} </td>
+                                <td> {{ job.id }} </td>
+                                <td> {{ job.start_time }} </td>
+                                <td> {{ job.end_time }} </td>
+                                <td><a href="{{ h }}/logs/{{ project }}/{{ job.spider }}/{{ job.id }}.log">Log</a></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <h2>{{ job_result.message }}<h2>
+                {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-3">
+            <div class="list-group">
+                {% for spider, w in spider_result.items() %}
+                <div class="list-group-item">
+                    <a href="/project/spider?project={{ project }}&spider={{ spider }}&worker={{ ','.join(w) }}">{{ spider }}</a>
+                    <a class="btn btn-info" href="/project/spider/run?project={{ project }}&spider={{ spider }}&worker={{ ','.join(w) }}">Run</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

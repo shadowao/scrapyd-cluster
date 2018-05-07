@@ -1,0 +1,3 @@
+ZOOKEEPER_HOSTS = '192.168.31.218:2181'
+ZOOKEEPER_PATH = '/scrapyd-cluster'
+

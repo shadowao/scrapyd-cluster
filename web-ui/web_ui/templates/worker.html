@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Project List{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            {% if result.status == 'ok' %}
+            <div class="list-group">
+                {% for project in result.projects %}
+                <div class="list-group-item"><a href="/project/workers?project={{ project }}">{{ project }}</a></div>
+                {% endfor %}
+            </div>
+            {% else %}
+            <h2>{{ result.message }}<h2>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

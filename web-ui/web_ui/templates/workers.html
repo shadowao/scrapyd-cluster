@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Project List{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="list-group">
+                {% for worker, projects in worker_projects.items() %}
+                <div class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <a href="/worker?worker={{ worker }}">{{ worker }}</a>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <a href="{{ worker }}">Jump Worker Native Web</a>
+                        </div>
+                    </div>
+                    <hr/>
+                    {% if projects.status == 'ok' %}
+                        {% for p in projects.projects %}
+                            <div><a href="/project?project={{ p }}">{{ p }}</a></div>
+                        {% endfor %}
+                    {% else %}
+                        <h2>{{ projects.message }}<h2>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
